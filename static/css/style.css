@@ -1,0 +1,14 @@
+canvas {
+  width: 600px;
+  height: 304px;
+  border: 1px solid #444;
+  display: block;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+@media (max-width: 650px) {
+  canvas {
+    width: 100%;
+  }
+}

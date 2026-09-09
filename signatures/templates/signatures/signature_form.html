@@ -1,0 +1,24 @@
+<!-- signatures/templates/signatures/signature_form.html -->
+{% extends "base.html" %} {% block content %}
+<form method="post" action="">
+  {% csrf_token %}
+
+  <div>
+    <label for="name">Name</label>
+
+    <input type="text" id="name" name="name" required />
+  </div>
+
+  <div>
+    <label for="signature">Signature</label>
+
+    <canvas id="signature" width="600" height="304"></canvas>
+  </div>
+
+  <div>
+    <button type="button" id="clearSignature">Clear</button>
+
+    <button type="submit">Submit</button>
+  </div>
+</form>
+{% endblock content %}
