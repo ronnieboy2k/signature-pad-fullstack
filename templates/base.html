@@ -1,13 +1,14 @@
-{% load static %}
-<!doctype html>
+{% load static %}<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+
+    {% block extra_head %}{% endblock extra_head %}
   </head>
   <body>
-    {% block content %}{% endblock content %}
+    {% block content %}{% endblock content %} {% block body_end %}{% endblock body_end %}
   </body>
 </html>

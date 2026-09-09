@@ -1,5 +1,6 @@
-<!-- signatures/templates/signatures/signature_form.html -->
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% load static %} {% block extra_head %}
+<script src="{% static 'js/signature-pad-js.js' %}"></script>
+{% endblock extra_head %} {% block content %}
 <form method="post" action="">
   {% csrf_token %}
 
@@ -21,4 +22,8 @@
     <button type="submit">Submit</button>
   </div>
 </form>
-{% endblock content %}
+{% endblock content %} {% block body_end %}
+<script type="text/javascript">
+  signaturePad("signature", "clearSignature");
+</script>
+{% endblock body_end %}
