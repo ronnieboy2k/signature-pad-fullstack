@@ -1,9 +1,11 @@
-from django.test import SimpleTestCase
+from django.test import TestCase
 from django.urls import reverse
+
+from .models import Signature, Signer
 
 
 # Create your tests here.
-class SignatureFormPageTests(SimpleTestCase):
+class SignatureFormPageTests(TestCase):
     def setUp(self):
         self.signature_form_url = reverse("signature_form")
 
@@ -18,3 +20,24 @@ class SignatureFormPageTests(SimpleTestCase):
     def test_template_name_correct(self):
         response = self.client.get(self.signature_form_url)
         self.assertTemplateUsed(response, "signatures/signature_form.html")
+
+
+class SignatureCreateAPITests(TestCase):
+    def setUp(self):
+        self.signature_create_api_url = reverse("signature_create_api")
+
+    def test_post_creates_signer_and_signature(self):
+        response = self.client.post(
+            self.signature_create_api_url,
+            {
+                "name": "John Doe",
+            },
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 201)
+
+        signer = Signer.objects.get(name="John Doe")
+
+        self.assertEqual(Signature.objects.count(), 1)
+        self.assertEqual(Signature.objects.first().signer, signer)
