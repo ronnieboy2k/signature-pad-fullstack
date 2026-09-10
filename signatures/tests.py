@@ -58,6 +58,28 @@ class SignatureCreateAPITests(TestCase):
         self.assertEqual(Signature.objects.count(), 1)
         self.assertEqual(Signature.objects.first().signer, signer)
 
+    def test_creates_signature_with_image(self):
+        image_data = b"test image data"
+        encoded_data = "data:image/png;base64," + base64.b64encode(image_data).decode(
+            "ascii"
+        )
+
+        response = self.client.post(
+            reverse("signature_create_api"),
+            {
+                "name": "John Doe",
+                "signature": encoded_data,
+            },
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 201)
+
+        signature = Signature.objects.get()
+
+        self.assertTrue(signature.image)
+        self.assertTrue(signature.image.endswith("/john-doe.png"))
+
 
 class CleanNameToFilenameTests(TestCase):
     def test_clean_name_to_filename(self):
