@@ -1,19 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { createSignature } from "../api/signatures";
-
-declare function signaturePad(
-  canvas: string | HTMLCanvasElement,
-  clearBtn?: string | HTMLElement | null,
-  saveBtn?: string | HTMLElement | null,
-): {
-  set_empty: (value: boolean) => void;
-  is_empty: () => boolean;
-  toDataURL: () => string;
-  save: () => string;
-  clear: () => void;
-  send: () => string;
-  resize: () => void;
-};
+import signaturePad from "../signature-pad-js";
 
 function SignatureForm() {
   const [name, setName] = useState("");

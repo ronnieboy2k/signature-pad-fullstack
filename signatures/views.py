@@ -1,3 +1,7 @@
+from pathlib import Path
+
+from django.conf import settings
+from django.http import FileResponse
 from django.views.generic import TemplateView
 from rest_framework.generics import CreateAPIView
 
@@ -18,3 +22,12 @@ class SignatureFormPageView(TemplateView):
 class SignatureCreateAPI(CreateAPIView):
     queryset = Signature.objects.all()
     serializer_class = SignatureSerializer
+
+
+def signature_react_view(request):
+    dist_path = Path(settings.BASE_DIR) / "frontend" / "dist" / "index.html"
+
+    return FileResponse(
+        dist_path.open("rb"),
+        content_type="text/html",
+    )
