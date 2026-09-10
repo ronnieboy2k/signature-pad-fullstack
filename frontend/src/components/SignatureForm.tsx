@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createSignature } from "../api/signatures";
 
 declare function signaturePad(
   canvas: string | HTMLCanvasElement,
@@ -16,6 +17,7 @@ declare function signaturePad(
 
 function SignatureForm() {
   const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const signaturePadRef = useRef<ReturnType<typeof signaturePad> | null>(null);
   useEffect(() => {
@@ -30,14 +32,33 @@ function SignatureForm() {
   const handleClear = () => {
     signaturePadRef.current?.clear();
   };
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     if (!signaturePadRef.current) {
       return;
     }
+
     const signature = signaturePadRef.current.toDataURL();
-    console.log("Name:", name);
-    console.log("Signature:", signature);
+
+    if (!signature) {
+      setMessage("Please provide a signature.");
+      return;
+    }
+
+    try {
+      setMessage("Submitting...");
+
+      await createSignature(name, signature);
+
+      setMessage("Signature submitted successfully.");
+
+      setName("");
+      signaturePadRef.current.clear();
+    } catch (error) {
+      console.error(error);
+      setMessage("Failed to submit signature.");
+    }
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -67,7 +88,7 @@ function SignatureForm() {
         {" "}
         Clear{" "}
       </button>{" "}
-      <button type="submit"> Submit </button>{" "}
+      <button type="submit"> Submit </button> {message && <p>{message}</p>}
     </form>
   );
 }
