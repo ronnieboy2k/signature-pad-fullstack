@@ -25,5 +25,5 @@ class SignatureSerializer(serializers.ModelSerializer):
 
         return Signature.objects.create(
             signer=signer,
-            image="",
+            image="123",
         )

@@ -1,3 +1,13 @@
+function getCsrfToken(): string {
+  const cookie = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("csrftoken="));
+
+  return cookie
+    ? decodeURIComponent(cookie.split("=")[1])
+    : "";
+}
+
 export async function createSignature(
   name: string,
   signature: string,
@@ -6,6 +16,7 @@ export async function createSignature(
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "X-CSRFToken": getCsrfToken(),
     },
     body: JSON.stringify({
       name,
