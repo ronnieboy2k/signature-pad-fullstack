@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from django.views.static import serve
+from django.views.generic import RedirectView
 
 from .views import (
     SignatureCreateAPI,
@@ -13,6 +14,14 @@ from .views import (
 DIST_DIR = Path(settings.BASE_DIR) / "frontend" / "dist"
 
 urlpatterns = [
+    path(
+        "",
+        RedirectView.as_view(
+            url="/signature/",
+            permanent=False,
+        ),
+        name="home",
+    ),
     path(
         "signature/",
         signature_react_view,
