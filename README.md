@@ -25,7 +25,7 @@ The application allows users to enter their name and create a digital signature 
 
 * Python
 * Django 5.0.14
-* Django REST Framework 3.18.1
+* Django REST Framework 3.15.2
 * SQLite
 
 ### Frontend
