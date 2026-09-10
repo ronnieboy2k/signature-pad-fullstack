@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Signature, Signer
+from .services.signature import save_signature_image
 
 
 class SignatureSerializer(serializers.ModelSerializer):
@@ -23,7 +24,9 @@ class SignatureSerializer(serializers.ModelSerializer):
             name=name,
         )
 
+        image = save_signature_image(name, encoded_signature)
+
         return Signature.objects.create(
             signer=signer,
-            image="123",
+            image=image,
         )
